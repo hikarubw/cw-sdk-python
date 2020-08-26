@@ -18,14 +18,24 @@ class Markets:
         trades=False,
         ohlc=False,
         periods=[],
+        before=None,
+        after=None
     ):
         exchange, pair = market.split(":")
         if ohlc:
             log("Getting market OHLC candles {}".format(market))
             resource = "/markets/{}/{}/ohlc".format(exchange, pair)
+            query = []
             if periods:
                 sec_periods = translate_periods(periods)
-                resource += "?periods={}".format(",".join(sec_periods))
+                #resource += "?periods={}".format(",".join(sec_periods))
+                query.append(f"periods={','.join(sec_periods)}")
+            if before:
+                query.append(f'before={before}')
+            if after:
+                query.append(f'after={after}')
+            if len(query) > 0:
+                resource += f"?{'&'.join(query)}"
             schema = MarketOHLCAPIResponseSchema()
         elif trades:
             log("Getting market trades {}".format(market))
