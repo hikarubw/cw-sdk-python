@@ -14,7 +14,7 @@ class AllowanceSchema(Schema):
 
 
 class AllowanceResource:
-    def __init__(self, cost, remaining, remainingPaid, upgrade="", account=""):
+    def __init__(self, cost, remaining, remainingPaid=None, upgrade="", account=""):
         self.cost = cost
         self.remaining = remaining
         self.remaining_paid = remainingPaid
